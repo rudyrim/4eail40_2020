@@ -1,5 +1,14 @@
 package main
 
+import (
+	"fmt"
+)
+
 func main() {
-	// TODO implement command line interface here
+	const(
+	ligne int = 2
+	colonne int =6
+	)
+	var tab = [ligne][colonne] string {{"♙","♘","♗","♖","♕","♔"},{"♟","♞","♝","♜","♛","♚"}}
+	fmt.Println(tab[1][5])
 }
