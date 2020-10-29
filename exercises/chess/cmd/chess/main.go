@@ -1,36 +1,47 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strings"
 )
 
-var (
-	a = [8]string{"♖", "♘", "♗", "♕", "♔", "♗", "♘", "♖"}
-	b = [8]string{"♙", "♙", "♙", "♙", "♙", "♙", "♙", "♙"}
-	c = [8]string{" ", " ", " ", " ", " ", " ", " ", " "}
-	d = [8]string{" ", " ", " ", " ", " ", " ", " ", " "}
-	e = [8]string{" ", " ", " ", " ", " ", " ", " ", " "}
-	f = [8]string{" ", " ", " ", " ", " ", " ", " ", " "}
-	g = [8]string{"♟", "♟", "♟", "♟", "♟", "♟", "♟", "♟"}
-	h = [8]string{"♜", "♞", "♝", "♛", "♚", "♝", "♞", "♜"}
-)
-
-func display() {
-	fmt.Println(" ", " 0", "1", "2", "3", "4", "5", "6", "7")
-	fmt.Println("A", a, "A")
-	fmt.Println("B", b, "B")
-	fmt.Println("C", c, "C")
-	fmt.Println("D", d, "D")
-	fmt.Println("E", e, "E")
-	fmt.Println("F", f, "F")
-	fmt.Println("G", g, "G")
-	fmt.Println("H", h, "H")
-	fmt.Println(" ", " 0", "1", "2", "3", "4", "5", "6", "7")
-}
 func main() {
+	reader := bufio.NewReader(os.Stdin)
+	for {
+		fmt.Print("$ ")
+		cmdString, err := reader.ReadString('\n')
+		if err != nil {
+			_, _ = fmt.Fprintln(os.Stderr, err)
+		}
+		err = runCommand(cmdString)
+		if err != nil {
+			_, _ = fmt.Fprintln(os.Stderr, err)
+		}
+	}
+}
 
-	e[1] = "♙"
-	b[1] = " "
-	display()
+func runCommand(commandStr string) (e error) {
+	commandStr = strings.TrimSuffix(commandStr, "\n")
+	args := strings.Fields(commandStr)
+	switch args[0] {
+	case "exit":
+		os.Exit(0)
+	// add another case here for custom commands.
+	case "new":
+		// TODO Create a new game on a classic 8x8 board.
+		// TODO Display the board on console.
+		break
 
+	case "move":
+		// TODO Move a piece. (syntax: move <from> <to>)
+		// TODO The command line should be in the form of move A2 A4.
+		// TODO     => meaning move piece from position A2 to A4
+		// TODO Display the board on console.
+		break
+	default:
+		e = fmt.Errorf("unknown command %s", args[0])
+	}
+	return
 }
